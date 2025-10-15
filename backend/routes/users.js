@@ -35,23 +35,25 @@ let users = [
 ];
 
 // Gets all users
-router.get('/api/users', (req, res) => {
+router.get('/api/users', (req, res, next) => {
   return res.status(200).send(users);
 });
 
 // Get specific user
-router.get('/api/users/:id', (req, res) => {
+router.get('/api/users/:id', (req, res, next) => {
   const id = parseInt(req.params.id);
   const user = users.find(user => user.id === id)
 
   if (!user) {
-    return res.status(404).send({ msg: `User with ID of ${id} was not found.` });
+    const error = new Error(`User with ID of ${id} was not found.`);
+    error.status = 404;
+    return next(error);
   }
   return res.status(200).send(user);
 });
 
 // Create a user
-router.post('/api/users/', (req, res) => {
+router.post('/api/users/', (req, res, next) => {
   const newUser = {
     id: users.length + 1,
     ...req.body
@@ -60,7 +62,9 @@ router.post('/api/users/', (req, res) => {
   const existingUsername = users.find(user => user.username === newUser.username);
 
   if (existingUsername) {
-    return res.status(400).send({ msg: 'Username not available. Please try another one.' });
+    const error = new Error(`Username not available. Please try another one.`);
+    error.status = 400;
+    return next(error);
   }
 
   users.push(newUser);
@@ -68,12 +72,14 @@ router.post('/api/users/', (req, res) => {
 });
 
 // Updates all fields of a user
-router.put('/api/users/:id', (req, res) => {
+router.put('/api/users/:id', (req, res, next) => {
   const id = parseInt(req.params.id);
   const findUserIndex = users.findIndex(user => user.id === id);
 
   if (findUserIndex === -1) {
-    return res.status(404).send({ msg: `User with ID of ${id} was not found.` });
+    const error = new Error(`User with ID of ${id} was not found.`);
+    error.status = 404;
+    return next(error);
   }
 
   const findUser = {
@@ -87,12 +93,14 @@ router.put('/api/users/:id', (req, res) => {
 });
 
 // Updates a specific field of a user
-router.patch('/api/users/:id', (req, res) => {
+router.patch('/api/users/:id', (req, res, next) => {
   const id = parseInt(req.params.id);
   const findUserIndex = users.findIndex(user => user.id === id);
 
   if (findUserIndex === -1) {
-    return res.status(404).send({ msg: `User with ID of ${id} was not found.` });
+    const error = new Error(`User with ID of ${id} was not found.`);
+    error.status = 404;
+    return next(error);
   }
 
   const findUser = {
@@ -106,12 +114,14 @@ router.patch('/api/users/:id', (req, res) => {
 });
 
 // Deletes a user
-router.delete('/api/users/:id', (req, res) => {
+router.delete('/api/users/:id', (req, res, next) => {
   const id = parseInt(req.params.id);
   const findUserIndex = users.findIndex(user => user.id === id);
 
   if (findUserIndex === -1) {
-    return res.status(404).send({ msg: `User with ID of ${id} was not found.` });
+    const error = new Error(`User with ID of ${id} was not found.`);
+    error.status = 404;
+    return next(error);
   }
 
   users = users.filter(user => user.id !== id);

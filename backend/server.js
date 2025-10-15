@@ -1,6 +1,7 @@
 import express, { urlencoded } from "express";
 import dotenv from 'dotenv';
 import router from "./routes/users.js";
+import errorHandler from "./middlewares/error.js";
 dotenv.config();
 
 const app = express();
@@ -14,6 +15,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // Uses the router middleware
 app.use(router);
+
+// Error handling middleware
+app.use(errorHandler);
 
 app.get('/', (req, res) => {
   return res.send("Welcome to the MERN Stack App.");
