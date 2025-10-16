@@ -58,7 +58,7 @@ export const getUser = (req, res, next) => {
 // @route POST api/users/
 export const createUser = (req, res, next) => {
   const newUser = {
-    id: users.length + 1,
+    id: users.at(-1).id + 1,
     ...req.body
   };
 
@@ -87,6 +87,14 @@ export const updateUser = (req, res, next) => {
     return next(error);
   }
 
+  const existingUsername = users.find(user => user.username === req.body.username);
+
+  if (existingUsername) {
+    const error = new Error(`Username not available. Please try another one.`);
+    error.status = 400;
+    return next(error);
+  }
+
   const findUser = {
     id: id,
     ...req.body
@@ -107,6 +115,14 @@ export const patchUser = (req, res, next) => {
   if (findUserIndex === -1) {
     const error = new Error(`User with ID of ${id} was not found.`);
     error.status = 404;
+    return next(error);
+  }
+
+  const existingUsername = users.find(user => user.username === req.body.username);
+
+  if (existingUsername) {
+    const error = new Error(`Username not available. Please try another one.`);
+    error.status = 400;
     return next(error);
   }
 
