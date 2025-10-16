@@ -2,8 +2,6 @@ import express from "express";
 import { createUser, deleteUser, getUser, getUsers, patchUser, updateUser } from "../controllers/userController.js";
 const router = express.Router();
 
-
-
 // Gets all users
 router.get('/api/users', getUsers);
 
