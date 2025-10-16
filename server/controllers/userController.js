@@ -109,8 +109,8 @@ export const updateUser = async (req, res, next) => {
       findUser.username = newUsername;
     }
 
-    // if (fullName) findUser.fullName = fullName;
-    // if (password) findUser.password = password;
+    if (fullName) findUser.fullName = fullName;
+    if (password) findUser.password = password;
 
     await findUser.save();
 
@@ -119,37 +119,6 @@ export const updateUser = async (req, res, next) => {
     return res.status(500).json({ msg: error.message });
   }
 };
-
-
-// @desc  Updates a specific user
-// @route PATCH api/users/:id
-// export const patchUser = (req, res, next) => {
-//   const id = parseInt(req.params.id);
-//   const findUserIndex = users.findIndex(user => user.id === id);
-
-//   if (findUserIndex === -1) {
-//     const error = new Error(`User with ID of ${id} was not found.`);
-//     error.status = 404;
-//     return next(error);
-//   }
-
-//   const existingUsername = users.find(user => user.username === req.body.username);
-
-//   if (existingUsername) {
-//     const error = new Error(`Username not available. Please try another one.`);
-//     error.status = 400;
-//     return next(error);
-//   }
-
-//   const findUser = {
-//     ...users[findUserIndex],
-//     ...req.body
-//   };
-
-//   users[findUserIndex] = findUser;
-
-//   return res.status(200).json(users);
-// };
 
 
 // @desc  Deletes a user

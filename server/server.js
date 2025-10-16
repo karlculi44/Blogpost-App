@@ -1,6 +1,6 @@
 import express, { urlencoded } from "express";
 import dotenv from 'dotenv';
-import router from "./routes/users.js";
+import userRouter from "./routes/users.js";
 import errorHandler from "./middlewares/error.js";
 import mongoose from "mongoose";
 dotenv.config();
@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Uses the router middleware
-app.use(router);
+app.use('/api/users', userRouter);
 
 // Connect to db
 mongoose.connect(process.env.MONGO_URI)
