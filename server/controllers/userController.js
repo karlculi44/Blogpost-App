@@ -1,3 +1,5 @@
+import User from "../models/userModel.js";
+
 let users = [
   {
     id: 1,
@@ -35,121 +37,136 @@ let users = [
 // @desc  Gets all users
 // @route GET api/users
 export const getUsers = (req, res, next) => {
-  return res.status(200).send(users);
+  return res.status(200).json(users);
 };
 
 
 // @desc  Gets specific user
-// @route GET api/users/:id
-export const getUser = (req, res, next) => {
-  const id = parseInt(req.params.id);
-  const user = users.find(user => user.id === id)
+// @route GET api/users/:username
+export const getUser = async (req, res, next) => {
+  const { username } = req.params;
+  try {
+    const findUser = await User.findOne({ username }).select('fullName username createdAt');
 
-  if (!user) {
-    const error = new Error(`User with ID of ${id} was not found.`);
-    error.status = 404;
-    return next(error);
+    if (!findUser) {
+      const error = new Error(`User with username of ${username} was not found.`);
+      error.status = 404;
+      return next(error);
+    }
+
+    return res.status(200).json(findUser);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
   }
-  return res.status(200).send(user);
 }
 
 
 // @desc  Creates a user
 // @route POST api/users/
-export const createUser = (req, res, next) => {
-  const newUser = {
-    id: users.at(-1).id + 1,
-    ...req.body
-  };
+export const createUser = async (req, res, next) => {
+  const { fullName, username, password } = req.body;
 
-  const existingUsername = users.find(user => user.username === newUser.username);
+  try {
+    const existingUsername = await User.findOne({ username });
 
-  if (existingUsername) {
-    const error = new Error(`Username not available. Please try another one.`);
-    error.status = 400;
-    return next(error);
+    if (existingUsername) {
+      const error = new Error(`Username not available. Please try another one.`);
+      error.status = 400;
+      return next(error);
+    }
+
+    const newUser = await User.create({ fullName, username, password });
+    return res.status(201).json(newUser);
+  } catch (error) {
+    return res.status(400).json({ msg: error.message });
   }
-
-  users.push(newUser);
-  return res.status(201).send(users);
 };
 
 
 // @desc  Updates a user
-// @route PUT api/users/:id
-export const updateUser = (req, res, next) => {
-  const id = parseInt(req.params.id);
-  const findUserIndex = users.findIndex(user => user.id === id);
+// @route PUT api/users/:username
+export const updateUser = async (req, res, next) => {
+  const { username } = req.params;
+  const { fullName, newUsername, password } = req.body;
 
-  if (findUserIndex === -1) {
-    const error = new Error(`User with ID of ${id} was not found.`);
-    error.status = 404;
-    return next(error);
+  try {
+    const findUser = await User.findOne({ username });  //finds if the user exists
+
+    if (!findUser) {
+      const error = new Error(`User with username of ${username} was not found.`);
+      error.status = 404;
+      return next(error);
+    }
+
+    if (newUsername && newUsername !== username) {
+      const existingUsername = await User.findOne({ username: newUsername });
+
+      if (existingUsername) {
+        const error = new Error(`Username not available. Please try another one.`);
+        error.status = 400;
+        return next(error);
+      }
+      findUser.username = newUsername;
+    }
+
+    // if (fullName) findUser.fullName = fullName;
+    // if (password) findUser.password = password;
+
+    await findUser.save();
+
+    return res.status(200).json(findUser);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
   }
-
-  const existingUsername = users.find(user => user.username === req.body.username);
-
-  if (existingUsername) {
-    const error = new Error(`Username not available. Please try another one.`);
-    error.status = 400;
-    return next(error);
-  }
-
-  const findUser = {
-    id: id,
-    ...req.body
-  };
-
-  users[findUserIndex] = findUser;
-
-  return res.status(200).send(users);
 };
 
 
 // @desc  Updates a specific user
 // @route PATCH api/users/:id
-export const patchUser = (req, res, next) => {
-  const id = parseInt(req.params.id);
-  const findUserIndex = users.findIndex(user => user.id === id);
+// export const patchUser = (req, res, next) => {
+//   const id = parseInt(req.params.id);
+//   const findUserIndex = users.findIndex(user => user.id === id);
 
-  if (findUserIndex === -1) {
-    const error = new Error(`User with ID of ${id} was not found.`);
-    error.status = 404;
-    return next(error);
-  }
+//   if (findUserIndex === -1) {
+//     const error = new Error(`User with ID of ${id} was not found.`);
+//     error.status = 404;
+//     return next(error);
+//   }
 
-  const existingUsername = users.find(user => user.username === req.body.username);
+//   const existingUsername = users.find(user => user.username === req.body.username);
 
-  if (existingUsername) {
-    const error = new Error(`Username not available. Please try another one.`);
-    error.status = 400;
-    return next(error);
-  }
+//   if (existingUsername) {
+//     const error = new Error(`Username not available. Please try another one.`);
+//     error.status = 400;
+//     return next(error);
+//   }
 
-  const findUser = {
-    ...users[findUserIndex],
-    ...req.body
-  };
+//   const findUser = {
+//     ...users[findUserIndex],
+//     ...req.body
+//   };
 
-  users[findUserIndex] = findUser;
+//   users[findUserIndex] = findUser;
 
-  return res.status(200).send(users);
-};
+//   return res.status(200).json(users);
+// };
 
 
 // @desc  Deletes a user
-// @route DELETE api/users/:id
-export const deleteUser = (req, res, next) => {
-  const id = parseInt(req.params.id);
-  const findUserIndex = users.findIndex(user => user.id === id);
+// @route DELETE api/users/:username
+export const deleteUser = async (req, res, next) => {
+  const { username } = req.params;
+  try {
+    const findUser = await User.findOne({ username });
 
-  if (findUserIndex === -1) {
-    const error = new Error(`User with ID of ${id} was not found.`);
-    error.status = 404;
-    return next(error);
+    if (!findUser) {
+      const error = new Error(`User with username of ${username} was not found.`);
+      error.status = 404;
+      return next(error);
+    }
+    await User.findOneAndDelete({ username });
+    return res.status(200).json({ msg: `User "${username}" has been deleted.` });
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
   }
-
-  users = users.filter(user => user.id !== id);
-
-  return res.status(200).send(users);
 };
