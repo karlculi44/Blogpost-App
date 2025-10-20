@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const Home = () => {
+const DashBoard = () => {
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
@@ -35,4 +35,4 @@ const Home = () => {
   );
 }
 
-export default Home
+export default DashBoard

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { loginUser } from "../api/loginUser.js";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -15,6 +17,7 @@ const LandingPage = () => {
     try {
       const data = await loginUser(url, body);
       console.log('Login Successfully:', data);
+      navigate('/dashboard');
     } catch (error) {
       console.log(`Error: ${error.message}`);
     }
@@ -48,7 +51,7 @@ const LandingPage = () => {
               Password
             </label>
             <input
-              // type="password"
+              type="password"
               id="password"
               placeholder="Enter your password"
               autoComplete="current-password"
