@@ -1,4 +1,25 @@
+import { useState } from "react";
+import { loginUser } from "../api/loginUser.js";
+
 const LandingPage = () => {
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const url = '/api/users';
+    const body = { username, password };
+
+    try {
+      const data = await loginUser(url, body);
+      console.log('Login Successfully:', data);
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-blue-50">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
@@ -7,7 +28,7 @@ const LandingPage = () => {
         </h1>
 
         {/* Login Form */}
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleLogin}>
           <div>
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">
               Username
@@ -16,7 +37,9 @@ const LandingPage = () => {
               type="text"
               id="username"
               placeholder="Enter your username"
+              autoComplete="username"
               className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              onChange={e => setUsername(e.target.value)}
             />
           </div>
 
@@ -28,7 +51,9 @@ const LandingPage = () => {
               type="password"
               id="password"
               placeholder="Enter your password"
+              autoComplete="current-password"
               className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              onChange={e => setPassword(e.target.value)}
             />
           </div>
 
