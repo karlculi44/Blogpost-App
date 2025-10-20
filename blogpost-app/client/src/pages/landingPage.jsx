@@ -23,6 +23,10 @@ const LandingPage = () => {
     }
   }
 
+  const goToSignUp = () => {
+    navigate('/signup');
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-blue-50">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
@@ -71,7 +75,7 @@ const LandingPage = () => {
         {/* Signup Section */}
         <p className="text-center text-sm text-gray-600 mt-6">
           Don’t have an account?{' '}
-          <button className="text-blue-600 hover:underline font-medium">
+          <button className="text-blue-600 hover:underline font-medium" onClick={goToSignUp}>
             Sign up
           </button>
         </p>
