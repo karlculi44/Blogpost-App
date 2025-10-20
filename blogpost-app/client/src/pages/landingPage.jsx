@@ -6,17 +6,17 @@ const LandingPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async (e) => {
+  const loginHandler = async (e) => {
     e.preventDefault();
 
-    const url = '/api/users';
+    const url = '/api/login';
     const body = { username, password };
 
     try {
       const data = await loginUser(url, body);
       console.log('Login Successfully:', data);
     } catch (error) {
-      console.log(`Error: ${error}`);
+      console.log(`Error: ${error.message}`);
     }
   }
 
@@ -28,7 +28,7 @@ const LandingPage = () => {
         </h1>
 
         {/* Login Form */}
-        <form className="space-y-4" onSubmit={handleLogin}>
+        <form className="space-y-4" onSubmit={loginHandler}>
           <div>
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">
               Username
@@ -48,7 +48,7 @@ const LandingPage = () => {
               Password
             </label>
             <input
-              type="password"
+              // type="password"
               id="password"
               placeholder="Enter your password"
               autoComplete="current-password"

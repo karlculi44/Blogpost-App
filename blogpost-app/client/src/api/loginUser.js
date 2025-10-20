@@ -5,7 +5,10 @@ export const loginUser = async (url, body) => {
     body: JSON.stringify(body)
   });
 
-  if (res.ok) throw new Error('Request failed.');
+  const data = await res.json();
 
-  return res.json();
+  console.log(res);
+  if (!res.ok) throw new Error(data.msg, 'Login request failed.');
+
+  return data;
 };

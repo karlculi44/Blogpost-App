@@ -1,8 +1,9 @@
 import express, { urlencoded } from "express";
 import dotenv from 'dotenv';
-import userRouter from "./routes/users.js";
+import userRouter from "./routes/usersRouter.js";
 import errorHandler from "./middlewares/error.js";
 import mongoose from "mongoose";
+import authRouter from "./routes/authRouter.js";
 dotenv.config();
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Uses the router middleware
 app.use('/api/users', userRouter);
+app.use('/api/login', authRouter);
 
 // Connect to db
 mongoose.connect(process.env.MONGO_URI)

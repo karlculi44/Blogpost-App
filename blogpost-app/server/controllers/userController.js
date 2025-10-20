@@ -1,39 +1,5 @@
 import User from "../models/userModel.js";
 
-// let users = [
-//   {
-//     id: 1,
-//     fullName: "Karl Culi",
-//     username: "karlculi",
-//     password: "password123"
-//   },
-//   {
-//     id: 2,
-//     fullName: "Maria Santos",
-//     username: "marias",
-//     password: "securePass456"
-//   },
-//   {
-//     id: 3,
-//     fullName: "John Dela Cruz",
-//     username: "johndc",
-//     password: "myPassword789"
-//   },
-//   {
-//     id: 4,
-//     fullName: "Ana Reyes",
-//     username: "anarey",
-//     password: "anaPass2025"
-//   },
-//   {
-//     id: 5,
-//     fullName: "Mark Lopez",
-//     username: "marklopez",
-//     password: "mark1234"
-//   }
-// ];
-
-
 // @desc  Gets all users
 // @route GET api/users
 export const getUsers = async (req, res, next) => {
