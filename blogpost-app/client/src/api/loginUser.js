@@ -1,14 +1,15 @@
+import axios from 'axios';
+
 export const loginUser = async (url, body) => {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
+  try {
+    const res = await axios.post(url, body);
+    console.log('res', res);
+    console.log('res data', res.data);
 
-  const data = await res.json();
-
-  console.log(res);
-  if (!res.ok) throw new Error(data.msg, 'Login request failed.');
-
-  return data;
+    return res.data;
+  } catch (error) {
+    const err = error.response?.data?.msg || "Login request failed.";
+    console.error("Axios Error:", msg);
+    throw new Error(err);
+  }
 };

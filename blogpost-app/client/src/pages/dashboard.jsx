@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const DashBoard = () => {
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch('/api/users');
-      const json = await response.json();
-
-      if (response.ok) {
-        setUsers(json);
+      try {
+        const res = await axios.get('/api/users');
+        setUsers(res.data);
+      } catch (error) {
+        console.error('Error fetching users:', error.response?.data?.message || error.message);
       }
     }
 
