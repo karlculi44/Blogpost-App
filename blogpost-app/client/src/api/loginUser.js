@@ -3,8 +3,8 @@ import axios from 'axios';
 export const loginUser = async (url, body) => {
   try {
     const res = await axios.post(url, body);
-    const user = res;
-    return user.data;
+    if (res.data?.token) localStorage.setItem('token', res.data.token);
+    return res.data;
   } catch (error) {
     const err = error.response?.data?.msg || "Login request failed.";
     console.error("Axios Error:", err);

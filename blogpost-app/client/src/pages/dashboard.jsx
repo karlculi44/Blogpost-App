@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const DashBoard = () => {
   const [users, setUsers] = useState(null);
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -17,8 +18,25 @@ const DashBoard = () => {
     fetchUsers();
   }, []);
 
+  const getProfile = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const res = await axios.get('/api/auth/profile', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log(res.data);
+      setProfile(res.data);
+      console.log('Profile data:', res.data);
+    } catch (error) {
+      console.error('Error fetching profile:', error.response?.data?.message || error.message);
+    }
+  };
+
   return (
     <>
+
       <div className="flex justify-center">
         <div className="max-w-[80%]">
           {users && users.map(user => (
@@ -32,6 +50,17 @@ const DashBoard = () => {
         </div>
       </div>
 
+      <button onClick={getProfile} className="mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+        Profile
+      </button>
+
+      {profile ? (
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Welcome, {profile?.user?.fullName || 'Guest'}!</h2>
+          <p className="text-gray-700 dark:text-gray-300">Username: {profile?.user?.username || 'N/A'}</p>
+        </div>
+      ) :
+        ('')}
     </>
   );
 }
