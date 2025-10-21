@@ -1,5 +1,5 @@
 import User from "../models/userModel.js";
-
+import bcrypt from 'bcrypt';
 
 // login a user
 export const loginUser = async (req, res, next) => {
@@ -9,8 +9,8 @@ export const loginUser = async (req, res, next) => {
     const user = await User.findOne({ username }).select('+password');
 
     if (!user) return res.status(404).json({ msg: 'User not found.' });
-    if (password !== user.password) return res.status(400).json({ msg: 'Incorrect password' });
-
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ msg: 'Incorrect password' });
 
     return res.status(200).json({
       msg: 'Login successful',
@@ -29,7 +29,7 @@ export const loginUser = async (req, res, next) => {
 // signup a user
 export const signUpUser = async (req, res) => {
   try {
-    const { username, email } = req.body;
+    const { username, email, password } = req.body;
 
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
@@ -40,6 +40,10 @@ export const signUpUser = async (req, res) => {
     if (existingEmail) {
       return res.status(400).json({ msg: "Email is already taken." });
     }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    req.body.password = hashedPassword;
 
     const newUser = await User.create(req.body);
 
