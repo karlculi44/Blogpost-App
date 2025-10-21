@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Uses the router middleware
 app.use('/api/users', userRouter);
-app.use('/api/login', authRouter);
+app.use('/api/auth', authRouter);
 
 // Connect to db
 mongoose.connect(process.env.MONGO_URI)

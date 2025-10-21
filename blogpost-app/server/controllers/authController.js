@@ -1,5 +1,7 @@
 import User from "../models/userModel.js";
 
+
+// login a user
 export const loginUser = async (req, res, next) => {
   const { username, password } = req.body;
   try {
@@ -20,5 +22,40 @@ export const loginUser = async (req, res, next) => {
     });
   } catch (error) {
     return res.status(500).json({ msg: 'Server error:' + error.message });
+  }
+};
+
+
+// signup a user
+export const signUpUser = async (req, res) => {
+  try {
+    const { username, email } = req.body;
+
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      return res.status(400).json({ msg: "Username is already taken." });
+    }
+
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).json({ msg: "Email is already taken." });
+    }
+
+    const newUser = await User.create(req.body);
+
+    return res.status(201).json({
+      msg: "User created successfully.",
+      user: {
+        id: newUser._id,
+        fullName: newUser.fullName,
+        username: newUser.username,
+        email: newUser.email,
+        suffix: newUser.suffix,
+        birthdate: newUser.birthdate,
+      },
+    });
+
+  } catch (error) {
+    return res.status(500).json({ msg: "Server error: " + error.message });
   }
 };

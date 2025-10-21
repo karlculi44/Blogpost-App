@@ -11,7 +11,7 @@ const LandingPage = () => {
   const loginHandler = async (e) => {
     e.preventDefault();
 
-    const url = '/api/login';
+    const url = '/api/auth/login';
     const body = { username, password };
 
     try {
