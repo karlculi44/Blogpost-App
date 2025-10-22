@@ -1,9 +1,11 @@
-import express, { urlencoded } from "express";
+import express from "express";
 import dotenv from 'dotenv';
 import userRouter from "./routes/usersRouter.js";
 import errorHandler from "./middlewares/error.js";
 import mongoose from "mongoose";
 import authRouter from "./routes/authRouter.js";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 dotenv.config();
 
 const app = express();
@@ -11,6 +13,13 @@ const PORT = process.env.PORT || 5000;
 
 // Body parser for json requests
 app.use(express.json());
+app.use(cookieParser());
+
+// allows cross-origin requests from the React frontend
+app.use(cors({
+  origin: "http://localhost:3000", // your React app's address
+  credentials: true, // allow cookies and tokens
+}));
 
 // Body parser for form-encoded requests
 app.use(express.urlencoded({ extended: false }));

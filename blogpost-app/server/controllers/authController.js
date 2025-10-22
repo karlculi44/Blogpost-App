@@ -16,6 +16,13 @@ export const loginUser = async (req, res, next) => {
 
     const token = generateToken(user);
 
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000 // 1 day
+    });
+
     return res.status(200).json({
       msg: 'Login successful',
       user: {
@@ -28,6 +35,11 @@ export const loginUser = async (req, res, next) => {
   } catch (error) {
     return res.status(500).json({ msg: 'Server error:' + error.message });
   }
+};
+
+export const logoutUser = (req, res) => {
+  res.clearCookie('token', { sameSite: 'strict', httpOnly: true });
+  return res.status(200).json({ msg: 'Logout successful' });
 };
 
 
