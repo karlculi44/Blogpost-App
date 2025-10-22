@@ -1,5 +1,5 @@
 import express from "express";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 import userRouter from "./routes/usersRouter.js";
 import errorHandler from "./middlewares/error.js";
 import mongoose from "mongoose";
@@ -16,26 +16,28 @@ app.use(express.json());
 app.use(cookieParser());
 
 // allows cross-origin requests from the React frontend
-app.use(cors({
-  origin: "http://localhost:3000", // your React app's address
-  credentials: true, // allow cookies and tokens
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000", // your React app's address
+    credentials: true, // allow cookies and tokens
+  })
+);
 
 // Body parser for form-encoded requests
 app.use(express.urlencoded({ extended: false }));
 
 // Uses the router middleware
-app.use('/api/users', userRouter);
-app.use('/api/auth', authRouter);
+app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
 
 // Connect to db
-mongoose.connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => {
-
     // Listens only for requests once database connection has been established.
     app.listen(PORT, () => console.log(`PORT is running on PORT ${PORT}`));
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err);
   });
 
@@ -43,6 +45,6 @@ mongoose.connect(process.env.MONGO_URI)
 app.use(errorHandler);
 
 // main endpoint
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   return res.send("Welcome to the MERN Stack App.");
 });
