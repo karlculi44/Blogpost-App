@@ -1,7 +1,6 @@
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 dotenv.config();
-
 
 // export const protect = (req, res, next) => {
 //   const authHeader = req.headers.authorization;
@@ -18,13 +17,14 @@ dotenv.config();
 //   }
 // };
 
-
 // this is the same as above but gets token from cookies
 
 export const protect = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
-    return res.status(401).json({ msg: 'No token provided, authorization denied.' });
+    return res
+      .status(401)
+      .json({ msg: "No token provided, authorization denied." });
   }
 
   try {
@@ -32,6 +32,6 @@ export const protect = (req, res, next) => {
     req.user = decoded; // Attach decoded user info to request object
     next();
   } catch (error) {
-    return res.status(401).json({ msg: 'Token is not valid.' });
+    return res.status(401).json({ msg: "Token is not valid." });
   }
 };

@@ -3,29 +3,28 @@ import { loginUser } from "../api/loginUser.js";
 import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
-
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const loginHandler = async (e) => {
     e.preventDefault();
 
-    const url = '/api/auth/login';
+    const url = "/api/auth/login";
     const body = { username, password };
 
     try {
       const data = await loginUser(url, body);
-      console.log('Login Successfully:', data);
-      navigate('/dashboard');
+      console.log("Login Successfully:", data);
+      navigate("/dashboard");
     } catch (error) {
       console.log(`Error: ${error.message}`);
     }
-  }
+  };
 
   const goToSignUp = () => {
-    navigate('/signup');
-  }
+    navigate("/signup");
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-blue-50">
@@ -37,7 +36,10 @@ const LandingPage = () => {
         {/* Login Form */}
         <form className="space-y-4" onSubmit={loginHandler}>
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700"
+            >
               Username
             </label>
             <input
@@ -46,12 +48,15 @@ const LandingPage = () => {
               placeholder="Enter your username"
               autoComplete="username"
               className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              onChange={e => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
@@ -60,7 +65,7 @@ const LandingPage = () => {
               placeholder="Enter your password"
               autoComplete="current-password"
               className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
@@ -74,8 +79,11 @@ const LandingPage = () => {
 
         {/* Signup Section */}
         <p className="text-center text-sm text-gray-600 mt-6">
-          Don’t have an account?{' '}
-          <button className="text-blue-600 hover:underline font-medium" onClick={goToSignUp}>
+          Don't have an account?{" "}
+          <button
+            className="text-blue-600 hover:underline font-medium"
+            onClick={goToSignUp}
+          >
             Sign up
           </button>
         </p>
