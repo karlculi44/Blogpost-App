@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
-import { signUpUser } from "../api/signUpUser.js";
+import { signUpUser } from "../api/userRequests.js";
 
 const SignupPage = () => {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { loginUser } from "../api/loginUser.js";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../api/userRequests.js";
 
 const LandingPage = () => {
   const [username, setUsername] = useState("");

@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const DashBoard = () => {
   const [users, setUsers] = useState(null);
-  const [profile, setProfile] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -23,49 +21,11 @@ const DashBoard = () => {
     fetchUsers();
   }, []);
 
-  const getProfile = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const res = await axios.get("/api/auth/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(res.data);
-      setProfile(res.data);
-      console.log("Profile data:", res.data);
-    } catch (error) {
-      console.error(
-        "Error fetching profile:",
-        error.response?.data?.message || error.message
-      );
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      const logout = await axios.post(
-        "/api/auth/logout",
-        {},
-        { withCredentials: true }
-      );
-      console.log(logout.data.msg);
-      localStorage.removeItem("token");
-      alert("Logout Successful");
-      navigate("/");
-    } catch (error) {}
-  };
-
   return (
     <>
-      <button
-        className="px-5 py-2 m-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 transition-all duration-200"
-        onClick={handleLogout}
-      >
-        Logout
-      </button>
+      <Navbar />
 
-      <div className="flex justify-center">
+      <div className="flex justify-center pt-20">
         <div className="max-w-[80%]">
           <h1 className="font-bold">Beta Users</h1>
           {users &&
@@ -84,26 +44,6 @@ const DashBoard = () => {
             ))}
         </div>
       </div>
-
-      <button
-        onClick={getProfile}
-        className="mt-6 px-4 py-2 m-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 "
-      >
-        Profile
-      </button>
-
-      {profile ? (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">
-            Welcome, {profile?.user?.fullName || "Guest"}!
-          </h2>
-          <p className="text-gray-700 dark:text-gray-300">
-            Username: {profile?.user?.username || "N/A"}
-          </p>
-        </div>
-      ) : (
-        ""
-      )}
     </>
   );
 };
