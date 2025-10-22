@@ -1,4 +1,4 @@
-# 📝 Blogspot App
+# 📝 Blogpost App
 
 A full-stack blog application built with **React**, **Node.js**, **Express**, and **MongoDB**.  
 Users can register, log in securely with JWT (stored in cookies), and create blog posts.
