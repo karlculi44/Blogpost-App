@@ -9,6 +9,8 @@ const InputField = ({
   placeholder = "",
   value,
   onChange,
+  isSubmitted = false,
+  errorMessage = "This field is required",
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -19,11 +21,13 @@ const InputField = ({
     "bg-gray-50 dark:bg-zinc-900 text-gray-900 dark:text-white " +
     "focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10";
 
-  const labelStyle =
-    "block text-gray-700 dark:text-gray-200 font-medium mb-1";
+  const labelStyle = "block text-gray-700 dark:text-gray-200 font-medium mb-1";
+
+  // Check if field is empty when form is submitted
+  const showError = isSubmitted && !value.trim();
 
   return (
-    <div className="relative flex flex-col">
+    <div className="relative flex flex-col mb-2">
       <label htmlFor={id} className={labelStyle}>
         {label}
       </label>
@@ -34,13 +38,13 @@ const InputField = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className={baseStyle}
+        className={`${baseStyle} ${showError ? "border-red-500" : ""}`}
       />
 
       {type === "password" && (
         <button
           type="button"
-          onClick={() => setShowPassword((prevState) => !prevState)}
+          onClick={() => setShowPassword((prev) => !prev)}
           className="absolute right-3 top-[38px] text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
         >
           {showPassword ? (
@@ -50,6 +54,8 @@ const InputField = ({
           )}
         </button>
       )}
+
+      {showError && <p className="text-red-500 text-sm mt-1">{errorMessage}</p>}
     </div>
   );
 };
