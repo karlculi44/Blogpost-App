@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 
 const DashBoard = () => {
   const [users, setUsers] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -21,6 +22,11 @@ const DashBoard = () => {
     fetchUsers();
   }, []);
 
+  const handlePostSubmit = (content) => {
+    console.log("User posted:", content);
+    // You can send this to your backend here
+  };
+
   return (
     <>
       <Navbar />
@@ -28,6 +34,7 @@ const DashBoard = () => {
       <div className="flex justify-center pt-20">
         <div className="max-w-[80%]">
           <h1 className="font-bold">Beta Users</h1>
+
           {users &&
             users.map((user) => (
               <div

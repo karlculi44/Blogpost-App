@@ -80,7 +80,7 @@ export const signUpUser = async (req, res) => {
 // GET @/api/auth/profile
 export const getProfile = (req, res) => {
   res.json({
-    msg: `Welcome ${req.user.username}, this is your profile.`,
+    msg: `Hello ${req.user.username}, this is your profile.`,
     user: req.user,
   });
 };
