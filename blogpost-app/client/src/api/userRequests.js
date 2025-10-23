@@ -1,5 +1,7 @@
 import axios from "axios";
 
+// get user profile
+// @ /api/auth/profile
 export const getProfile = async () => {
   const token = localStorage.getItem("token");
   try {
@@ -17,6 +19,8 @@ export const getProfile = async () => {
   }
 };
 
+// logout user
+// POST @ /api/auth/logout
 export const logoutUser = async () => {
   try {
     const logout = await axios.post(
@@ -32,6 +36,8 @@ export const logoutUser = async () => {
   }
 };
 
+// login user
+// POST @ /api/auth/login
 export const loginUser = async (url, body) => {
   try {
     const res = await axios.post(url, body, { withCredentials: true });
@@ -39,11 +45,13 @@ export const loginUser = async (url, body) => {
     return res.data;
   } catch (error) {
     const err = error.response?.data?.msg || "Login request failed.";
-    console.error("Axios Error:", err);
+    alert(err);
     throw new Error(err);
   }
 };
 
+// signup user
+// POST @ /api/auth/signup
 export const signUpUser = async (url, body) => {
   try {
     const res = await axios.post(url, body);

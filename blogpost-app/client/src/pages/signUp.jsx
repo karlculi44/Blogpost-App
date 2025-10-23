@@ -19,7 +19,6 @@ const SignupPage = () => {
     confirmPassword: "",
   });
 
-  // 🔹 Add a submitted state
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e) => {
@@ -28,9 +27,8 @@ const SignupPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitted(true); // 🔹 triggers red messages on empty fields
+    setIsSubmitted(true);
 
-    // 🔹 Stop if any required field is empty
     const requiredFields = [
       "firstName",
       "surname",
@@ -42,9 +40,7 @@ const SignupPage = () => {
     ];
 
     const hasEmpty = requiredFields.some((key) => !formData[key].trim());
-    if (hasEmpty) {
-      return; // prevent submission until all required fields are filled
-    }
+    if (hasEmpty) return;
 
     if (formData.password !== formData.confirmPassword) {
       setPasswordMismatch(true);
@@ -76,9 +72,9 @@ const SignupPage = () => {
   const goToLandingPage = () => navigate("/");
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-zinc-900 p-4">
-      <div className="w-full max-w-2xl bg-white dark:bg-zinc-800 p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="w-full max-w-2xl bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           Sign Up
         </h2>
 

@@ -1,25 +1,44 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api/userRequests.js";
+import InputField from "../components/InputField.jsx";
 
 const LandingPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+  const [user, setUser] = useState(null);
 
-  const loginHandler = async (e) => {
+  // handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const url = "/api/auth/login";
-    const body = { username, password };
+    const requiredFields = ["username", "password"];
+    const hasEmpty = requiredFields.some((key) => !formData[key].trim());
 
     try {
+      if (hasEmpty) {
+        setIsSubmitted(true);
+        return; // prevent submission until all required fields are filled
+      }
+
+      const url = "/api/auth/login";
+      const { username, password } = formData;
+      const body = { username, password };
       const data = await loginUser(url, body);
       console.log("Login Successfully:", data);
+      setUser(data);
       navigate("/dashboard");
     } catch (error) {
       console.log(`Error: ${error.message}`);
     }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const goToSignUp = () => {
@@ -34,41 +53,33 @@ const LandingPage = () => {
         </h1>
 
         {/* Login Form */}
-        <form className="space-y-4" onSubmit={loginHandler}>
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Username
-            </label>
-            <input
-              type="text"
+            <InputField
+              label="Username"
               id="username"
-              placeholder="Enter your username"
-              autoComplete="username"
-              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              onChange={(e) => setUsername(e.target.value)}
+              type="text"
+              value={formData.username}
+              onChange={handleChange}
+              isSubmitted={isSubmitted}
             />
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              type="password"
+            <InputField
+              label="Password"
               id="password"
-              placeholder="Enter your password"
-              autoComplete="current-password"
-              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              isSubmitted={isSubmitted}
             />
           </div>
-
+          {!user && isSubmitted && (
+            <p className="text-red-500 text-sm mt-1">
+              Invalid username or password.
+            </p>
+          )}
           <button
             type="submit"
             className="w-full py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition cursor-pointer"

@@ -3,7 +3,7 @@ import { Menu, X } from "lucide-react";
 import { getProfile, logoutUser } from "../api/userRequests.js";
 import { useNavigate } from "react-router-dom";
 
-export default function Navbar() {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
@@ -99,4 +99,6 @@ export default function Navbar() {
       )}
     </nav>
   );
-}
+};
+
+export default Navbar;
