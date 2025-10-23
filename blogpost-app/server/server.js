@@ -18,7 +18,7 @@ app.use(cookieParser());
 // allows cross-origin requests from the React frontend
 app.use(
   cors({
-    origin: "http://localhost:3000", // your React app's address
+    origin: "http://localhost:5173", // your React app's address
     credentials: true, // allow cookies and tokens
   })
 );

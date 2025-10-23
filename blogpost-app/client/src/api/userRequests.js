@@ -3,18 +3,16 @@ import axios from "axios";
 // get user profile
 // @ /api/auth/profile
 export const getProfile = async () => {
-  const token = localStorage.getItem("token");
   try {
     const res = await axios.get("/api/auth/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      withCredentials: true, // include cookies
     });
+    if (!res.data) throw new Error("No token provided, authorization denied.");
     return res.data;
   } catch (error) {
     console.error(
       "Error fetching profile:",
-      error.response?.data?.message || error.message
+      error.response?.data?.msg || error.message
     );
   }
 };
@@ -41,7 +39,6 @@ export const logoutUser = async () => {
 export const loginUser = async (url, body) => {
   try {
     const res = await axios.post(url, body, { withCredentials: true });
-    if (res.data?.token) localStorage.setItem("token", res.data.token);
     return res.data;
   } catch (error) {
     const err = error.response?.data?.msg || "Login request failed.";

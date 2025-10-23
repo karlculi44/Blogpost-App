@@ -18,8 +18,8 @@ export const loginUser = async (req, res, next) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: false, // set to true in production with HTTPS
+      sameSite: "lax",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
@@ -78,9 +78,19 @@ export const signUpUser = async (req, res) => {
 
 // get current logged in user
 // GET @/api/auth/profile
-export const getProfile = (req, res) => {
-  res.json({
-    msg: `Hello ${req.user.username}, this is your profile.`,
-    user: req.user,
-  });
+export const getProfile = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token)
+      return res.status(401).json({ msg: "No token, authorization denied." });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).select("-password");
+    if (!user) return res.status(404).json({ msg: "User not found." });
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res
+      .status(401)
+      .json({ msg: "Invalid or expired token." + error.message });
+  }
 };

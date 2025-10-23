@@ -18,6 +18,10 @@ const Navbar = () => {
 
   const handleGetProfile = async () => {
     const data = await getProfile();
+    if (!data) {
+      alert("No token provided, authorization denied. No profile data.");
+      return;
+    }
     setProfile(data);
     alert(`Hello, ${data.user.fullName}!`);
   };

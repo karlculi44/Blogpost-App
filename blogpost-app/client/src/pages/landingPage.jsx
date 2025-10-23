@@ -13,7 +13,7 @@ const LandingPage = () => {
   const [user, setUser] = useState(null);
 
   // handle form submission
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     const requiredFields = ["username", "password"];
@@ -53,7 +53,7 @@ const LandingPage = () => {
         </h1>
 
         {/* Login Form */}
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleLogin}>
           <div>
             <InputField
               label="Username"
