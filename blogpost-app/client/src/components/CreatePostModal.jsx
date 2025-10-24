@@ -1,24 +1,29 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
+import { createPost } from "../api/postsRequest.js";
 
-export default function CreatePostModal({ isOpen, onClose, onSubmit }) {
+export default function CreatePostModal({ isOpen, onClose }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
-      requestAnimationFrame(() => setVisible(true));
-    } else {
-      setVisible(false);
-    }
+    if (isOpen) requestAnimationFrame(() => setVisible(true));
+    else setVisible(false);
   }, [isOpen]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
     const formData = new FormData(e.target);
-    const postContent = formData.get("content");
-    onSubmit(postContent);
-    e.target.reset();
-    onClose();
+    const content = formData.get("content");
+
+    try {
+      const url = "/api/posts";
+      const body = { content };
+      const res = await createPost(url, body);
+      console.log("Post created:", res.data);
+      e.target.reset();
+      onClose();
+    } catch (err) {
+      console.error("Failed to create post:", err.response?.data || err);
+    }
   };
 
   if (!isOpen && !visible) return null;
@@ -34,7 +39,6 @@ export default function CreatePostModal({ isOpen, onClose, onSubmit }) {
         className="bg-white text-gray-900 w-full max-w-lg rounded-2xl shadow-2xl p-6 transition-transform duration-300 transform"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Create Post</h2>
           <button
@@ -45,7 +49,6 @@ export default function CreatePostModal({ isOpen, onClose, onSubmit }) {
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit}>
           <textarea
             name="content"
@@ -54,7 +57,6 @@ export default function CreatePostModal({ isOpen, onClose, onSubmit }) {
             required
           ></textarea>
 
-          {/* Footer */}
           <div className="flex justify-end mt-4">
             <button
               type="submit"

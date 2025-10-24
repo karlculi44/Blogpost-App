@@ -5,12 +5,12 @@ import {
   getProfile,
   logoutUser,
 } from "../controllers/authController.js";
-import { protect } from "../middlewares/authMiddleware.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
 const authRouter = express.Router();
 
 authRouter.post("/login", loginUser);
 authRouter.post("/signup", signUpUser);
-authRouter.get("/profile", protect, getProfile);
+authRouter.get("/profile", verifyToken, getProfile);
 authRouter.post("/logout", logoutUser);
 
 export default authRouter;

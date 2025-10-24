@@ -1,53 +1,37 @@
-import { Heart, MessageCircle } from "lucide-react";
-
 export default function Post({ post }) {
-  const createdAt = new Date(post.createdAt).toLocaleString();
+  const { userId, content, createdAt } = post;
+
+  const profilePic =
+    userId.profilePic ||
+    "https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff";
+
+  const fullName = `${userId.firstName} ${userId.surname}`;
+
+  const formattedDate = new Date(createdAt).toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 max-w-lg w-full mx-auto mb-6">
-      {/* Author Info */}
-      <div className="flex items-center mb-3">
+    <div className="bg-white w-full max-w-lg rounded-2xl shadow-md p-5 mb-6">
+      {/* Header - User info */}
+      <div className="flex items-center gap-3 mb-4">
         <img
-          src={
-            post.userId.profilePic ||
-            "https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff"
-          }
-          alt="Profile"
-          className="w-10 h-10 rounded-full object-cover mr-3"
+          src={profilePic}
+          alt={fullName}
+          className="w-10 h-10 rounded-full object-cover"
         />
         <div>
-          <h3 className="font-semibold text-gray-900">
-            {post.userId.firstName} {post.userId.surname}
-          </h3>
-          <p className="text-xs text-gray-500">{createdAt}</p>
+          <p className="font-semibold text-gray-900">{fullName}</p>
+          <p className="text-sm text-gray-500">{formattedDate}</p>
         </div>
       </div>
 
-      {/* Content */}
-      <p className="text-gray-800 mb-3 whitespace-pre-wrap">{post.content}</p>
-
-      {post.image && (
-        <div className="mb-3">
-          <img
-            src={post.image}
-            alt="Post"
-            className="rounded-xl w-full max-h-[400px] object-cover"
-          />
-        </div>
-      )}
-
-      {/* Actions */}
-      <div className="flex items-center justify-between text-gray-600 mt-2">
-        <button className="flex items-center gap-1 hover:text-red-500 transition">
-          <Heart size={18} />
-          <span>{post.likes?.length || 0}</span>
-        </button>
-
-        <button className="flex items-center gap-1 hover:text-blue-500 transition">
-          <MessageCircle size={18} />
-          <span>{post.comments?.length || 0}</span>
-        </button>
-      </div>
+      {/* Post content */}
+      <p className="text-gray-800 whitespace-pre-line">{content}</p>
     </div>
   );
 }

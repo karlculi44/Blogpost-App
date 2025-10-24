@@ -1,11 +1,13 @@
-import express from "express";
-import dotenv from "dotenv";
-import userRouter from "./routes/usersRouter.js";
-import errorHandler from "./middlewares/error.js";
-import mongoose from "mongoose";
-import authRouter from "./routes/authRouter.js";
-import cookieParser from "cookie-parser";
 import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+import errorHandler from "./middlewares/error.js";
+import authRouter from "./routes/authRouter.js";
+import userRouter from "./routes/usersRouter.js";
+import postRoutes from "./routes/postRouter.js";
+
 dotenv.config();
 
 const app = express();
@@ -29,6 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 // Uses the router middleware
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/posts", postRoutes);
 
 // Connect to db
 mongoose
