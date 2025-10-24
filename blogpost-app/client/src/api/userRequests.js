@@ -7,7 +7,7 @@ export const getProfile = async () => {
     const res = await axios.get("/api/auth/profile", {
       withCredentials: true, // include cookies
     });
-    if (!res.data) throw new Error("No token provided, authorization denied.");
+    if (!res) throw new Error("No token provided, authorization denied.");
     return res.data;
   } catch (error) {
     console.error(

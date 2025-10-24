@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/generateJWT.js";
+import jwt from "jsonwebtoken";
 
 // login a user
 // POST @/api/auth/login`
@@ -18,8 +19,8 @@ export const loginUser = async (req, res, next) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // set to true in production with HTTPS
-      sameSite: "lax",
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
@@ -40,7 +41,12 @@ export const loginUser = async (req, res, next) => {
 // logout a user
 // POST @/api/auth/logout
 export const logoutUser = (req, res) => {
-  res.clearCookie("token", { sameSite: "strict", httpOnly: true });
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production", // ✅ add this for HTTPS environments
+  });
+
   return res.status(200).json({ msg: "Logout successful" });
 };
 
@@ -91,6 +97,6 @@ export const getProfile = async (req, res) => {
   } catch (error) {
     return res
       .status(401)
-      .json({ msg: "Invalid or expired token." + error.message });
+      .json({ msg: `Invalid or expired token. ${error.message}` });
   }
 };
