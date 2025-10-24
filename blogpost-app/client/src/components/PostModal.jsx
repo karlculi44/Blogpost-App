@@ -6,7 +6,6 @@ export default function CreatePostModal({ isOpen, onClose, onSubmit }) {
 
   useEffect(() => {
     if (isOpen) {
-      // small delay to allow mounting before fade-in
       requestAnimationFrame(() => setVisible(true));
     } else {
       setVisible(false);
@@ -22,18 +21,17 @@ export default function CreatePostModal({ isOpen, onClose, onSubmit }) {
     onClose();
   };
 
-  // Keep the modal mounted slightly longer for fade-out
   if (!isOpen && !visible) return null;
 
   return (
     <div
-      className={`fixed inset-0 bg-black/60 flex justify-center items-center z-100 transition-opacity duration-100 ${
+      className={`fixed inset-0 bg-black/30 flex justify-center items-center z-50 transition-opacity duration-100 ${
         visible ? "opacity-100" : "opacity-0"
       }`}
       onClick={onClose}
     >
       <div
-        className="bg-neutral-900 text-gray-100 w-full max-w-lg rounded-2xl shadow-2xl p-6 transition-transform duration-300 transform"
+        className="bg-white text-gray-900 w-full max-w-lg rounded-2xl shadow-2xl p-6 transition-transform duration-300 transform"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -41,9 +39,9 @@ export default function CreatePostModal({ isOpen, onClose, onSubmit }) {
           <h2 className="text-lg font-semibold">Create Post</h2>
           <button
             onClick={onClose}
-            className="p-1 rounded-full hover:bg-neutral-800 transition"
+            className="p-1 rounded-full hover:bg-gray-100 transition"
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-gray-200" />
+            <X className="w-5 h-5 text-gray-500 hover:text-gray-700" />
           </button>
         </div>
 
@@ -52,7 +50,7 @@ export default function CreatePostModal({ isOpen, onClose, onSubmit }) {
           <textarea
             name="content"
             placeholder="What's on your mind?"
-            className="w-full h-40 bg-neutral-800 text-gray-100 placeholder-gray-400 resize-none rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full h-40 bg-gray-50 text-gray-900 placeholder-gray-500 resize-none rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           ></textarea>
 
