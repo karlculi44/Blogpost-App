@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { getProfile, logoutUser } from "../api/userRequests.js";
 import { useNavigate } from "react-router-dom";
-import CreatePostModal from "./PostModal.jsx";
+import CreatePostModal from "./CreatePostModal.jsx";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);

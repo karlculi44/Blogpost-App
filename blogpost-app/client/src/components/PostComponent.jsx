@@ -1,28 +1,17 @@
 import { Heart, MessageCircle } from "lucide-react";
 
-export default function Post() {
-  const post = {
-    userId: {
-      firstName: "Karl",
-      surname: "Culi",
-      profilePic:
-        "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?w=500&q=80",
-    },
-    content:
-      "Just finished building my first React component! 🚀 Loving Tailwind so far — styling is actually fun now!",
-    image:
-      "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80",
-    likes: ["user1", "user2", "user3"],
-    comments: [{ text: "Awesome work!" }, { text: "Looks great, keep going!" }],
-    createdAt: "2025-10-23T12:00:00Z",
-  };
+export default function Post({ post }) {
+  const createdAt = new Date(post.createdAt).toLocaleString();
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 max-w-lg mx-auto my-6">
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 max-w-lg w-full mx-auto mb-6">
       {/* Author Info */}
       <div className="flex items-center mb-3">
         <img
-          src={post.userId.profilePic}
+          src={
+            post.userId.profilePic ||
+            "https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff"
+          }
           alt="Profile"
           className="w-10 h-10 rounded-full object-cover mr-3"
         />
@@ -30,9 +19,7 @@ export default function Post() {
           <h3 className="font-semibold text-gray-900">
             {post.userId.firstName} {post.userId.surname}
           </h3>
-          <p className="text-xs text-gray-500">
-            {new Date(post.createdAt).toLocaleString()}
-          </p>
+          <p className="text-xs text-gray-500">{createdAt}</p>
         </div>
       </div>
 
@@ -53,12 +40,12 @@ export default function Post() {
       <div className="flex items-center justify-between text-gray-600 mt-2">
         <button className="flex items-center gap-1 hover:text-red-500 transition">
           <Heart size={18} />
-          <span>{post.likes.length}</span>
+          <span>{post.likes?.length || 0}</span>
         </button>
 
         <button className="flex items-center gap-1 hover:text-blue-500 transition">
           <MessageCircle size={18} />
-          <span>{post.comments.length}</span>
+          <span>{post.comments?.length || 0}</span>
         </button>
       </div>
     </div>

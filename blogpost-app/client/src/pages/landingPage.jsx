@@ -31,7 +31,7 @@ const LandingPage = () => {
       const data = await loginUser(url, body);
       console.log("Login Successfully:", data);
       setUser(data);
-      navigate("/dashboard");
+      navigate("/homePage");
     } catch (error) {
       console.log(`Error: ${error.message}`);
     }
