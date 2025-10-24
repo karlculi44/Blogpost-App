@@ -1,8 +1,9 @@
-import './App.css';
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from './pages/landingPage.jsx';
-import DashBoard from './pages/dashboard.jsx';
-import SignupPage from './pages/signUp.jsx';
+import LandingPage from "./pages/landingPage.jsx";
+import DashBoard from "./pages/dashboard.jsx";
+import SignupPage from "./pages/signUp.jsx";
+import ProfilePage from "./pages/profile.jsx";
 
 function App() {
   return (
@@ -11,11 +12,10 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<DashBoard />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
-
-
+export default App;

@@ -23,7 +23,7 @@ const Navbar = () => {
       return;
     }
     setProfile(data);
-    alert(`Hello, ${data.user.fullName}!`);
+    navigate("/profile", { state: { user: data } });
   };
 
   return (
