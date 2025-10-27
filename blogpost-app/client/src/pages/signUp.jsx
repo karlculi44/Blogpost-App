@@ -61,8 +61,7 @@ const SignupPage = () => {
 
       const data = await signUpUser(url, body);
       console.log("User created successfully.", data);
-      alert("User registered successfully!");
-      navigate("/");
+      navigate("/signupSuccess");
     } catch (err) {
       alert(err.message);
       console.error(err);

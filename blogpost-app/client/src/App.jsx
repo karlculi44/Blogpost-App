@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/landingPage.jsx";
 import HomePage from "./pages/homePage.jsx";
 import SignupPage from "./pages/signUp.jsx";
+import SignupSuccessPage from "./pages/signupSuccessPage.jsx";
 import ProfilePage from "./pages/profile.jsx";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/homePage" element={<HomePage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/signupSuccess" element={<SignupSuccessPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
