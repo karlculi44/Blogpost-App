@@ -28,6 +28,7 @@ Users can register, log in securely with JWT (stored in cookies), and create blo
 
 ```bash
 1️⃣ Clone the repository
+
 git clone https://github.com/karlculi44/blogspot-app.git
 cd blogspot-app
 
