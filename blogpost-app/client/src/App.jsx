@@ -7,6 +7,7 @@ import SignupSuccessPage from "./pages/signupSuccessPage.jsx";
 import ProfilePage from "./pages/profile.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import UnauthorizedPage from "./pages/unauthorizedPage.jsx";
+import NotFoundPage from "./pages/404NotFoundPage.jsx";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/signupSuccess" element={<SignupSuccessPage />} />
