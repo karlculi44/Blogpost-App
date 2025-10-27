@@ -38,7 +38,9 @@ const InputField = ({
         value={value}
         onChange={onChange}
         className={`${baseStyle} ${
-          showError ? "border-red-500 focus:ring-red-400" : ""
+          showError && id !== "suffix"
+            ? "border-red-500 focus:ring-red-400"
+            : ""
         }`}
       />
 
