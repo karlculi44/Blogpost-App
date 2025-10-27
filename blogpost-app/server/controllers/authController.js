@@ -2,6 +2,7 @@ import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/generateJWT.js";
 import jwt from "jsonwebtoken";
+import { verifyToken } from "../middlewares/verifyToken.js";
 
 // login a user
 // POST @/api/auth/login`
@@ -105,4 +106,10 @@ export const getProfile = async (req, res) => {
       .status(401)
       .json({ msg: `Invalid or expired token. ${error.message}` });
   }
+};
+
+// verify user authentication
+// GET @/api/auth/verify
+export const verifyAuth = (req, res) => {
+  res.json({ valid: true, user: req.user });
 };

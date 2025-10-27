@@ -5,16 +5,33 @@ import HomePage from "./pages/homePage.jsx";
 import SignupPage from "./pages/signUp.jsx";
 import SignupSuccessPage from "./pages/signupSuccessPage.jsx";
 import ProfilePage from "./pages/profile.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import UnauthorizedPage from "./pages/unauthorizedPage.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route
+          path="/homePage"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/" element={<LandingPage />} />
-        <Route path="/homePage" element={<HomePage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/signupSuccess" element={<SignupSuccessPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
       </Routes>
     </BrowserRouter>
   );
