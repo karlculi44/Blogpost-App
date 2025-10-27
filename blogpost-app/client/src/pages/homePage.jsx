@@ -47,9 +47,9 @@ export default function HomePage() {
         <div className="max-w-lg mx-auto mb-6">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="w-full bg-blue-600 text-white font-medium py-2.5 rounded-xl shadow hover:bg-blue-700 transition"
+            className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 text-white text-4xl font-bold rounded-full shadow-lg hover:bg-blue-700 active:scale-95 transition flex items-center justify-center leading-none"
           >
-            Write a post
+            +
           </button>
         </div>
 

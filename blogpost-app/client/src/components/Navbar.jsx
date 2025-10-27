@@ -44,12 +44,12 @@ const Navbar = () => {
           {/* Desktop Links */}
           <div className="hidden md:flex items-center space-x-6">
             {/* Profile button */}
-            <button
+            {/* <button
               onClick={() => setIsModalOpen(true)}
               className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
             >
               Write a Post
-            </button>
+            </button> */}
             <button
               onClick={handleGetProfile}
               className="px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-red-400 transition-all duration-200"
