@@ -60,6 +60,12 @@ export const signUpUser = async (req, res) => {
     if (existingUser)
       return res.status(400).json({ msg: "Username or email already exists." });
 
+    if (password.length < 6) {
+      return res
+        .status(400)
+        .json({ msg: "Password must be at least 6 characters long." });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     req.body.password = hashedPassword;
