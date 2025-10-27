@@ -18,7 +18,7 @@ export const createPost = async (req, res) => {
       image,
     });
 
-    await savedPost.populate("userId", "firstName surname profilePic");
+    await savedPost.populate("userId", "fullName profilePic");
 
     const postWithAvatar = {
       ...savedPost.toObject(),
@@ -45,7 +45,7 @@ export const createPost = async (req, res) => {
 export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate("userId", "firstName surname profilePic")
+      .populate("userId", "fullName profilePic")
       .sort({ createdAt: -1 });
 
     const postsWithAvatar = posts.map((p) => ({

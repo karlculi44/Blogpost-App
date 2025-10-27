@@ -5,7 +5,7 @@ export default function Post({ post }) {
     userId.profilePic ||
     "https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff";
 
-  const fullName = `${userId.firstName} ${userId.surname}`;
+  const fullName = userId.fullName || "User";
 
   const formattedDate = new Date(createdAt).toLocaleString("en-US", {
     month: "short",

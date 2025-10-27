@@ -11,6 +11,7 @@ export default function CreatePostModal({ isOpen, onClose }) {
   }, [isOpen]);
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const formData = new FormData(e.target);
     const content = formData.get("content");
 
@@ -18,7 +19,8 @@ export default function CreatePostModal({ isOpen, onClose }) {
       const url = "/api/posts";
       const body = { content };
       const res = await createPost(url, body);
-      console.log("Post created:", res.data);
+      if (!res) throw new Error("No response from createPost");
+      console.log("Post created:", res);
       e.target.reset();
       onClose();
     } catch (err) {
