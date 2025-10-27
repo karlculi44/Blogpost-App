@@ -19,7 +19,7 @@ export default function HomePage() {
       }
     };
     fetchPosts();
-  }, []);
+  }, [isModalOpen]);
 
   // Handle new post creation
   const handleCreatePost = async (content) => {
